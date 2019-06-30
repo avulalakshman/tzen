@@ -1,0 +1,136 @@
+<div class="row mt-2">
+  <a [routerLink]="['/department/home/']" role="button">{{dname}}</a>
+  &nbsp; / &nbsp; constraints
+
+</div>
+
+<div class="row" >
+
+  <div class="col-md-6" id="clsConstraints">
+    <mat-tab-group>
+      <mat-tab label="Subject Preferences">
+        <br>
+        <form>
+          <div [formGroup]="formSConstraints">
+
+            <div class="form-group">
+              <input type="text" class="form-control" id="subjectNames" formControlName="subjectNames"
+                placeholder="Enter Subject name(s) with (,) separator">
+            </div>
+            <i>Select Prefered day(s)</i>:
+            <div class="form-check form-check-inline ml-1" formArrayName="sdays"
+              *ngFor="let day of formSConstraints.controls.days.value; let i = index">
+              <input class="form-check-input" type="checkbox" id="inlineCheckbox1" [formControlName]="i">
+              <label class="form-check-label" for="inlineCheckbox1">{{day_obj[i].day}}</label>
+            </div>
+
+            <div class="form-group mt-2">
+              <input type="text" class="form-control" id="slota" formControlName="slots"
+                placeholder="Enter Slot number(s) with (,) separator">
+            </div>
+            <div class="form-group mt-2">
+              <input type="checkbox" id="facultyNames" formControlName="negate"> &nbsp; Is negate?
+            </div>
+
+          </div>
+          <button class="btn btn-primary" (click)="addSubjectConstraints()">+ Constraint</button>
+        </form>
+
+      </mat-tab>
+      <mat-tab label="Faculty Preferences">
+        <br>
+        <form>
+          <div [formGroup]="formFConstraints">
+
+            <div class="form-group">
+              <input type="text" class="form-control" id="facultyNames" formControlName="facultyNames"
+                placeholder="Enter Faculty name(s) with (,) separator">
+            </div>
+            <i>Select Prefered day(s)</i>:
+            <div class="form-check form-check-inline ml-1" formArrayName="fdays"
+              *ngFor="let day of formFConstraints.controls.days.value; let i = index">
+              <input class="form-check-input" type="checkbox" id="inlineCheckbox1" [formControlName]="i">
+              <label class="form-check-label" for="inlineCheckbox1">{{day_obj[i].day}}</label>
+            </div>
+
+            <div class="form-group mt-2">
+              <input type="text" class="form-control" id="slota" formControlName="slots"
+                placeholder="Enter Slot number(s) with (,) separator">
+            </div>
+            <div class="form-group mt-2">
+              <input type="checkbox" id="facultyNames" formControlName="negate"> &nbsp; Is negate?
+            </div>
+
+          </div>
+          <button class="btn btn-primary" (click)="addFacultyConstraints()">+ Constraint</button>
+        </form>
+
+      </mat-tab>
+      <mat-tab label="Other Preferences">
+        <br>
+          <div *ngFor="let constraint of constraintInfo;let i=index">
+            <input type="checkbox" (change)=changeValue($event,constraint)> &nbsp;&nbsp;
+            <i><b>{{constraint.title}}</b></i>
+            <p> {{constraint.description}}</p>
+            <hr>
+          
+
+
+          </div>
+          <button class="btn btn-primary" (click)="addConstraintsKeys()">Add Constraints</button>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+  <div class="col-md-2" id="clsConstraints">
+
+  <div *ngIf="constraints">
+      <i>Faculty Prefs:</i>
+      <table class="table table-responsive">
+        <tr *ngFor="let faculty of constraints.facultyPrefs">
+          <td>
+           <b>{{faculty.entities}}</b><br>
+            Slots: {{faculty.slots}}<br>
+            Days : {{faculty.days}}<br>
+            Negate: {{faculty.negate}}
+
+
+          </td>
+        </tr>
+      </table>
+   </div>
+  </div>
+   <div class="col-md-2">
+  
+   <div *ngIf="constraints" id="clsConstraints">
+      <i>Subject Prefs:</i>
+      <table class="table table-responsive">
+        <tr *ngFor="let subject of constraints.subjPrefs">
+          <td>
+           <b>{{subject.entities}}</b><br>
+            Slots: {{subject.slots}}<br>
+            Days : {{subject.days}}<br>
+            Negate: {{subject.negate}}
+
+
+          </td>
+        </tr>
+      </table>
+   </div>
+   </div>
+   <div class="col-md-2">
+      <div *ngIf="keys" id="clsConstraints">
+         <i>Constraints:</i>
+         <table class="table table-responsive table-condensed">
+           <tr *ngFor="let key of keys">
+             <td>
+             {{key}}
+   
+             </td>
+           </tr>
+         </table>
+      </div>
+   
+ </div>
+
+
+</div>

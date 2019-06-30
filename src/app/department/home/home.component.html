@@ -1,0 +1,153 @@
+<div class="row">
+    <div class="col">
+        <hr>
+    </div>
+
+</div>
+
+
+
+<div class="row">
+    <div class="col-md-3">
+
+        <h5>Department : {{dname}}</h5>
+
+    </div>
+    <div class="col-md-3">
+        <button class="btn btn-lg btn-primary btn-sm"
+            [routerLink]="['/department/constraints',cid,deptId,dname]">{{dname}}&nbsp;Constrains</button>
+
+    </div>
+    <div class="col-md-6 float-right">
+
+        Upload {{dname}} Details:<input type="file" #myInput class="btn btn-sm" (change)="uploadStudentGroup($event)"
+            placeholder="Upload file" accept=".xls">
+
+    </div>
+
+</div>
+
+<div class="row">
+    <div class="col">
+        <hr>
+    </div>
+
+</div>
+
+<div *ngIf="college">
+    <div *ngIf="college.department.studentGroups">
+        <ngb-accordion #acc="ngbAccordion" *ngFor="let studentGroup of college.department.studentGroups;let i = index">
+            <ngb-panel id="toggle-1" title="{{studentGroup.name}}">
+                <ng-template ngbPanelContent>
+                    <div>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label for="name">Name:</label>
+                                    <input type="text" placeholder="Group Name" class="form-control form-control-sm"
+                                        id="name" [(ngModel)]="studentGroup.name">
+                                </div>
+                                <div class="form-group">
+                                    <label for="size">Size:</label>
+                                    <input type="text" placeholder="Group Size" class="form-control form-control-sm"
+                                        id="name" [(ngModel)]="studentGroup.size">
+                                </div>
+                                <div class="form-group">
+                                    <label for="size">Dept:</label>
+                                    <input type="text" placeholder="Department Name"
+                                        class="form-control form-control-sm" id="name"
+                                        [(ngModel)]="studentGroup.deptName">
+                                </div>
+                            </div>
+                            <div class="col-sm-9">
+                                <b>Subject Allocation:</b>
+
+                                <ul *ngFor="let subject of studentGroup.subjectAllocations;let j=index">
+                                    <hr>
+                                    <div class="form-inline mt-1 mb-2">
+                                        <label for="name">Subject:</label>
+                                        <input type="text" placeholder="Subject name"
+                                            class="form-control col-sm-4 form-control-sm ml-1 mr-1" id="name"
+                                            [(ngModel)]="subject.subjectName">
+                                        <label for="name">Weekly Hrs:</label>
+                                        <input type="text" placeholder="Weely Hours"
+                                            class="form-control col-sm-1 form-control-sm ml-1 mr-1" id="name"
+                                            [(ngModel)]="subject.weeklyHrs">
+                                        <label for="name">Slot Dur:</label>
+                                        <input type="text" placeholder="Slot Duration"
+                                            class="form-control col-sm-1 form-control-sm ml-1 mr-1" id="name"
+                                            [(ngModel)]="subject.slotDuration">
+
+                                        Auto Distribute: <input [(ngModel)]="subject.autoDistribution"
+                                            type="checkbox" />
+                                    </div>
+                                    <b>Teacher Allocation:</b>
+
+                                    <ul class="list-group"
+                                        *ngFor="let teacher of subject.teacherAllocations;let k=index">
+                                        <div class="form-inline mt-2">
+                                            <label for="name">Name:</label>
+                                            <input type="name" class="form-control ml-2 mr-2 form-control-sm" id="name"
+                                                [(ngModel)]="teacher.teacherName">
+                                            <label for="hours">Hours:</label>
+                                            <input type="hours" class="form-control ml-2 mr-2 form-control-sm" id="pwd"
+                                                [(ngModel)]="teacher.weeklyAllocation">
+                                            <i class="fa fa-minus-square ml-2" aria-hidden="true"
+                                                (click)="removeTeacher(i,j,k)"></i>
+
+                                        </div>
+
+                                    </ul>
+                                    <i class="fa fa-plus-square-o" aria-hidden="true" (click)="addTeacher(i,j)">
+                                        Teacher</i>
+
+                                    <div class="mt-4">
+                                        <b>Lab Names:</b>
+                                        <div class="row">
+                                            <div class="col-sm-4  mt-2"
+                                                *ngFor="let lab of subject.labNames;let k=index">
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control form-control-sm" id="labName"
+                                                        [ngModel]="subject.labNames[k]"
+                                                        (ngModelChange)="subject.labNames[k]=$event">
+
+                                                    <i class="fa fa-minus-square mt-2 ml-1" aria-hidden="true"
+                                                        (click)="removeLab(i,j,k)"></i>
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+
+
+                                    <i class="fa fa-plus-square-o mr-2" aria-hidden="true" (click)="addLab(subject)">
+                                        Lab</i>
+
+
+
+                                </ul>
+                                <i class="fa fa-minus-square-o mr-2 ml-2 mb-2" aria-hidden="true"
+                                    (click)="removeSubject(i,j)"> Subject</i>
+                                <i class="fa fa-plus-square-o" aria-hidden="true" (click)="addSubject(i)"> Subject</i>
+                                <br>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary float-right btn-sm" (click)="saveSubjectChanges()">Save
+                            Changes</button>
+                        <i class="fa fa-minus-square-o" aria-hidden="true" (click)="removeStudentGroup(i)"> Group</i>
+                    </div>
+                </ng-template>
+            </ngb-panel>
+
+        </ngb-accordion>
+    </div>
+</div>
+<div class="row mt-2">
+    <div class="col-sm-6">
+        <button class="btn btn-sm btn-primary mr-2" (click)="saveSubjectChanges()">Save All</button>
+        <button class="btn btn-sm btn-primary mr-2" (click)="addStudentGroup()">+ Student Group</button>
+        <button class="btn btn-sm btn-primary" (click)="generateTtInput()">Generate Timetable</button>
+
+    </div>
+</div>

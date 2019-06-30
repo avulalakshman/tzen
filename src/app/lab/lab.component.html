@@ -1,0 +1,91 @@
+<div class="mt-2">
+    <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-2">
+          <ng-container *ngIf="uploadSuccess">
+            <span class="text-success">Upload Successful</span>
+          </ng-container>
+        </div>
+  
+      <div class="col-md-6">
+        <button class="btn btn-lg btn-primary btn-sm mr-2" (click)="open(content)">New Lab Details</button>
+        <input #myInput type="file" id="file" (change)="uploadLabInfo($event)" placeholder="Upload file"
+        accept=".xls">
+      {{percentDoneLab}} % 
+      </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+    <table class="table table-striped table-sm mt-1 table-condensed">
+      <thead>
+        <tr>
+       
+          <th scope="col">Lab Room Name</th>
+          <th scope="col">Capacity</th>
+          <th scope="col">Building Name</th>
+          <th scope="col">Dept Name</th>
+          <th scope="col">Edit/Delete</th>
+  
+  
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let lab of labs">
+          <td>{{lab.labRoomName}}</td>
+          <td>{{ lab.capacity}}</td>
+          <td>{{ lab.buildingName}}</td>
+          <td>{{ lab.deptName}}</td>
+         
+          <td>
+              <i class="fas fa-trash-alt" (click)="deleteLab(lab)"></i> &nbsp;&nbsp;
+              <i class="fas fa-edit" (click)="editLab(lab,content)"></i>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="d-flex justify-content-between p-2">
+      <ngb-pagination [collectionSize]="collectionSize" [(page)]="page" [pageSize]="pageSize">
+      </ngb-pagination>
+  
+      <select class="custom-select" style="width: auto" [(ngModel)]="pageSize">
+        <option [ngValue]="2">2 items per page</option>
+        <option [ngValue]="4">4 items per page</option>
+        <option [ngValue]="6">6 items per page</option>
+      </select>
+    </div>
+  
+  </div>
+  
+  <ng-template #content let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title">New Lab Details</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+        <div [formGroup]="formlab">
+            <div class="form-group">
+                <input type="text" class="form-control" id="labRoomName" formControlName="labRoomName" placeholder="Lab Room Name">
+              </div>
+              <div class="form-group">
+                <input type="number" class="form-control" id="capacity"  formControlName="capacity" placeholder="Lab Capacity">
+              </div>
+              <div class="form-group">
+                  <input type="text" class="form-control" id="deptName"  formControlName="deptName" placeholder="Department Name">
+              </div>
+              <div class="form-group">
+                  <input type="text" class="form-control" id="buildingName"  formControlName="buildingName" placeholder="Building Name">
+              </div>
+                
+        </div>
+      </div>
+  
+    <div class="modal-footer">
+      <button type="button" class="btn btn-primary" (click)="saveData()">Add Lab</button>
+      <button type="button" class="btn btn-primary" (click)="modal.close('Close click')">Close</button>
+    </div>
+  </ng-template>
+  </div>
+  </div>

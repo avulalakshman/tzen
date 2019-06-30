@@ -1,0 +1,102 @@
+
+<div class="mt-2">
+  <div class="row">
+    <div class="col-md-4"></div>
+    <div class="col-md-2">
+      <ng-container *ngIf="uploadSuccess">
+        <span class="text-success">Upload Successful</span>
+      </ng-container>
+    </div>
+    <div class="col-md-6">
+      <button class="btn btn-lg btn-primary btn-sm mr-2" (click)="open(content)">New Staff Memeber</button>
+      <input #myInput type="file" id="file" (change)="uploadTeacherInformation($event)" placeholder="Upload file"
+        accept=".xls">
+      {{percentDoneFaculty}} %
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <table class="table table-striped table-sm mt-1 table-condensed">
+            <thead>
+              <tr>
+        
+        
+                <th scope="col">FullName</th>
+                <th scope="col">ShortName</th>
+                <th scope="col">MaxHrs</th>
+                <th scope="col">DeptName</th>
+                <th scope="col">BuildingName</th>
+                <th scope="col">Delete</th>
+        
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let st of allstaff">
+                <td>{{ st.name}}</td>
+                <td>{{ st.shortName}}</td>
+                <td>{{ st.maxHrsPerWeek | number}}</td>
+                <td>{{ st.deptName}}</td>
+                <td>{{ st.buildingName}}</td>
+                <td>
+                  <i class="fas fa-trash-alt" (click)="deleteStaff(st)"></i> &nbsp;&nbsp;
+                  <i class="fas fa-edit" (click)="editStaff(st,content)"></i>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="d-flex justify-content-between p-2">
+            <ngb-pagination [collectionSize]="collectionSize" [(page)]="page" [pageSize]="pageSize">
+            </ngb-pagination>
+        
+            <select class="custom-select" style="width: auto" [(ngModel)]="pageSize">
+              <option [ngValue]="2">2 items per page</option>
+              <option [ngValue]="4">4 items per page</option>
+              <option [ngValue]="6">6 items per page</option>
+            </select>
+          </div>
+        
+        </div>
+        
+        <ng-template #content let-modal>
+          <div class="modal-header">
+            <h4 class="modal-title">New Staff Memeber</h4>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div [formGroup]="formstaff">
+        
+              <div class="form-group">
+                <input type="text" class="form-control" id="name" formControlName="name" placeholder="FullName">
+              </div>
+              <div class="form-group">
+                <input type="text" class="form-control" id="shortName" formControlName="shortName" placeholder="ShortName">
+              </div>
+              <div class="form-group">
+                <input type="text" class="form-control" id="maxHrsPerWeek" formControlName="maxHrsPerWeek"
+                  placeholder="Maximum Hrs">
+              </div>
+              <div class="form-group">
+                <input type="text" class="form-control" id="deptName" formControlName="deptName" placeholder="Department Name">
+              </div>
+              <div class="form-group">
+                <input type="text" class="form-control" id="buildingName" formControlName="buildingName"
+                  placeholder="Building Name">
+              </div>
+        
+            </div>
+          </div>
+        
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" (click)="saveFormData()">Add Staff</button>
+            <button type="button" class="btn btn-primary" (click)="modal.close('Close click')">Close</button>
+          </div>
+        </ng-template>
+
+
+    </div>
+    <div class="col-md-2"></div>
+  </div>
+ 

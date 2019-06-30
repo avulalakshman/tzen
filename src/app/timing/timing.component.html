@@ -1,0 +1,27 @@
+<div class="row">
+  <div class="col-md-2"></div>
+  <div class="col-md-8  mt-2">
+  <table class="table table-body table-sm">
+    <thead>
+      <tr>
+        <td *ngFor="let heading of headings_timetable">{{heading}}</td>
+        <td><button class="btn btn-outline-primary btn-sx btn-sm" (click)="addNewRowTimeTable()">+</button></td>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let trow of timinglst; index as i">
+        <td class="align-middle font-weight-bold font-italic">{{i+1}}</td>
+        <td><input type="text" class="form-control form-control-sm textField" [(ngModel)]="trow.mon"></td>
+        <td><input type="text" class="form-control form-control-sm textField" [(ngModel)]="trow.tue"></td>
+        <td><input type="text" class="form-control form-control-sm textField" [(ngModel)]="trow.wed"></td>
+        <td><input type="text" class="form-control form-control-sm textField" [(ngModel)]="trow.thu"></td>
+        <td><input type="text" class="form-control form-control-sm textField" [(ngModel)]="trow.fri"></td>
+        <td><input type="text" class="form-control form-control-sm textField" [(ngModel)]="trow.sat"></td>
+        <td><input type="text" class="form-control form-control-sm textField" [(ngModel)]="trow.sun"></td>
+        <td><button class="btn btn-outline-primary btn-sx btn-sm" (click)="removeRowTimeTable(i)">-</button></td>
+      </tr>
+  </table>
+  <button class="btn btn-sm btn-outline-primary" (click)="saveChangesTiming()">Save Data</button>
+</div>
+<div class="col-md-2"></div>
+</div>
